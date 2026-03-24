@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-mint-50: #effdf7;
+  --color-mint-100: #d8f9eb;
+  --color-mint-200: #b2f0d8;
+  --color-mint-300: #7ae2c0;
+  --color-mint-400: #3ecba3;
+  --color-mint-500: #1ab088;
+  --color-mint-600: #0f8e6e;
+  --color-mint-700: #10725a;
+  
+  --color-coral-50: #fff4f1;
+  --color-coral-100: #ffe6df;
+  --color-coral-200: #ffd2c5;
+  --color-coral-300: #ffb49d;
+  --color-coral-400: #ff8b6a;
+  --color-coral-500: #ff6339;
+  --color-coral-600: #f04418;
+  
+  --color-sky-50: #f0f9ff;
+  --color-sky-100: #e0f2fe;
+  --color-sky-200: #bae6fd;
+  --color-sky-300: #7dd3fc;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  
+  --color-lemon-50: #fefce8;
+  --color-lemon-100: #fef9c3;
+  --color-lemon-200: #fef08a;
+  --color-lemon-300: #fde047;
+  --color-lemon-400: #facc15;
+  --color-lemon-500: #eab308;
+  --color-lemon-600: #ca8a04;
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
