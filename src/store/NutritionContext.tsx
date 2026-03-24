@@ -88,20 +88,7 @@ export const NutritionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const now = Date.now();
       return parsed.filter(log => now - new Date(log.timestamp).getTime() < THIRTY_DAYS_MS);
     }
-    return [
-      {
-        id: '1',
-        name: '牛油果煎蛋吐司',
-        weight: 250,
-        mealType: 'Breakfast',
-        timestamp: new Date().toISOString(),
-        calories: 350,
-        carbs: 30,
-        protein: 15,
-        fat: 20,
-        imageUrl: 'https://images.unsplash.com/photo-1484723091791-00d759ce4342?w=400&h=300&fit=crop',
-      }
-    ];
+    return [];
   });
   const [water, setWater] = useState(() => {
     const saved = localStorage.getItem('water');

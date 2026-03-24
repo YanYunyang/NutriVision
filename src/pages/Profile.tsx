@@ -12,21 +12,49 @@ export const Profile: React.FC = () => {
   return (
     <div className="p-6 pb-32 space-y-8 animate-in fade-in duration-500">
       <header className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-slate-200 border-4 border-white shadow-sm overflow-hidden">
-          <img src="https://picsum.photos/seed/user/100/100" alt="User" />
+        <div className="w-16 h-16 rounded-full bg-slate-200 border-4 border-white shadow-sm overflow-hidden shrink-0">
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23bbf7d0'/%3E%3Crect x='2' y='5' width='3' height='4' fill='%2378350f'/%3E%3Crect x='11' y='5' width='3' height='4' fill='%2378350f'/%3E%3Crect x='3' y='6' width='1' height='2' fill='%23fde68a'/%3E%3Crect x='12' y='6' width='1' height='2' fill='%23fde68a'/%3E%3Crect x='4' y='3' width='8' height='8' fill='%2378350f'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23fde68a'/%3E%3Crect x='4' y='7' width='8' height='4' fill='%23fde68a'/%3E%3Crect x='5' y='6' width='2' height='2' fill='%23000'/%3E%3Crect x='9' y='6' width='2' height='2' fill='%23000'/%3E%3Crect x='5' y='6' width='1' height='1' fill='%23fff'/%3E%3Crect x='9' y='6' width='1' height='1' fill='%23fff'/%3E%3Crect x='7' y='8' width='2' height='1' fill='%23d97706'/%3E%3Crect x='4' y='11' width='8' height='5' fill='%2378350f'/%3E%3Crect x='5' y='12' width='6' height='4' fill='%23fde68a'/%3E%3Crect x='7' y='9' width='5' height='2' fill='%23facc15'/%3E%3Crect x='10' y='7' width='3' height='2' fill='%23facc15'/%3E%3Crect x='11' y='5' width='2' height='2' fill='%23facc15'/%3E%3Crect x='8' y='10' width='3' height='3' fill='%2378350f'/%3E%3C/svg%3E" alt="User" className="w-full h-full object-cover" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">用户</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">小猴子</h1>
           <p className="text-sm text-slate-500 font-medium">免费版</p>
         </div>
       </header>
 
       {/* Stats Grid */}
       <section className="grid grid-cols-2 gap-4">
-        <StatCard icon={<User size={20} />} label="年龄" value={`${profile.age} 岁`} />
-        <StatCard icon={<Activity size={20} />} label="体重" value={`${profile.weight} kg`} />
-        <StatCard icon={<Target size={20} />} label="身高" value={`${profile.height} cm`} />
-        <StatCard icon={<Settings size={20} />} label="目标" value={goalMap[profile.goal]} className="capitalize" />
+        <StatCard 
+          icon={<User size={20} />} 
+          label="年龄" 
+          value={profile.age} 
+          unit="岁"
+          type="number"
+          onChange={(v) => updateProfile({ age: v })}
+        />
+        <StatCard 
+          icon={<Activity size={20} />} 
+          label="体重" 
+          value={profile.weight} 
+          unit="kg"
+          type="number"
+          onChange={(v) => updateProfile({ weight: v })}
+        />
+        <StatCard 
+          icon={<Target size={20} />} 
+          label="身高" 
+          value={profile.height} 
+          unit="cm"
+          type="number"
+          onChange={(v) => updateProfile({ height: v })}
+        />
+        <StatCard 
+          icon={<User size={20} />} 
+          label="性别" 
+          value={profile.gender} 
+          type="select"
+          options={[{label: '男', value: 'male'}, {label: '女', value: 'female'}]}
+          onChange={(v) => updateProfile({ gender: v })}
+        />
       </section>
 
       {/* Settings List */}
@@ -79,14 +107,43 @@ export const Profile: React.FC = () => {
   );
 };
 
-const StatCard: React.FC<{ icon: React.ReactNode; label: string; value: string; className?: string }> = ({ icon, label, value, className }) => (
+const StatCard: React.FC<{ 
+  icon: React.ReactNode; 
+  label: string; 
+  value: string | number; 
+  unit?: string;
+  type?: 'number' | 'select';
+  options?: {label: string, value: string}[];
+  onChange?: (val: any) => void;
+  className?: string 
+}> = ({ icon, label, value, unit, type, options, onChange, className }) => (
   <div className="bg-white rounded-3xl p-4 shadow-sm border border-slate-100 flex flex-col gap-2">
     <div className="text-mint-500 bg-mint-50 w-8 h-8 rounded-xl flex items-center justify-center">
       {icon}
     </div>
     <div>
       <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</div>
-      <div className={`text-lg font-bold text-slate-800 ${className}`}>{value}</div>
+      <div className={`flex items-baseline gap-1 text-lg font-bold text-slate-800 ${className}`}>
+        {type === 'number' ? (
+          <input 
+            type="number" 
+            value={value} 
+            onChange={(e) => onChange?.(Number(e.target.value))} 
+            className="w-12 bg-transparent border-b border-dashed border-slate-300 focus:border-mint-500 focus:outline-none text-center p-0 m-0"
+          />
+        ) : type === 'select' ? (
+          <select 
+            value={value} 
+            onChange={(e) => onChange?.(e.target.value)}
+            className="bg-transparent border-b border-dashed border-slate-300 focus:border-mint-500 focus:outline-none p-0 m-0 appearance-none cursor-pointer"
+          >
+            {options?.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+          </select>
+        ) : (
+          <span>{value}</span>
+        )}
+        {unit && <span className="text-sm font-medium text-slate-500">{unit}</span>}
+      </div>
     </div>
   </div>
 );

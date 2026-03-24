@@ -5,30 +5,32 @@ import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 
-const GENERIC_FOOD_IMAGES = [
-  'https://images.unsplash.com/photo-1493770348161-369560ae357d?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&h=300&fit=crop'
-];
-
-export const getGenericImage = (name: string) => {
-  if (!name) return GENERIC_FOOD_IMAGES[0];
-  const sum = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return GENERIC_FOOD_IMAGES[sum % GENERIC_FOOD_IMAGES.length];
+export const getFoodIcon = (name: string) => {
+  if (!name) return '🍽️';
+  if (name.includes('米饭') || name.includes('饭')) return '🍚';
+  if (name.includes('鸡') || name.includes('禽')) return '🍗';
+  if (name.includes('蛋')) return '🥚';
+  if (name.includes('苹果') || name.includes('果')) return '🍎';
+  if (name.includes('面包') || name.includes('吐司') || name.includes('饼')) return '🍞';
+  if (name.includes('奶')) return '🥛';
+  if (name.includes('牛') || name.includes('肉')) return '🥩';
+  if (name.includes('菜') || name.includes('兰花') || name.includes('豆')) return '🥦';
+  if (name.includes('鱼') || name.includes('虾') || name.includes('海鲜')) return '🍤';
+  if (name.includes('沙拉') || name.includes('草')) return '🥗';
+  if (name.includes('面') || name.includes('粉')) return '🍜';
+  if (name.includes('汤')) return '🥣';
+  return '🍱';
 };
 
 const COMMON_FOODS = [
-  { name: '米饭', calories: 130, carbs: 28, protein: 2.6, fat: 0.3, imageUrl: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=300&fit=crop' },
-  { name: '鸡胸肉', calories: 165, carbs: 0, protein: 31, fat: 3.6, imageUrl: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop' },
-  { name: '鸡蛋', calories: 155, carbs: 1.1, protein: 13, fat: 11, imageUrl: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&h=300&fit=crop' },
-  { name: '苹果', calories: 52, carbs: 14, protein: 0.3, fat: 0.2, imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6faa6?w=400&h=300&fit=crop' },
-  { name: '全麦面包', calories: 247, carbs: 41, protein: 13, fat: 3.4, imageUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop' },
-  { name: '牛奶', calories: 42, carbs: 5, protein: 3.4, fat: 1, imageUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&h=300&fit=crop' },
-  { name: '牛肉', calories: 250, carbs: 0, protein: 26, fat: 15, imageUrl: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop' },
-  { name: '西兰花', calories: 35, carbs: 7, protein: 2.4, fat: 0.4, imageUrl: 'https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=400&h=300&fit=crop' },
+  { name: '米饭', calories: 130, carbs: 28, protein: 2.6, fat: 0.3, icon: '🍚' },
+  { name: '鸡胸肉', calories: 165, carbs: 0, protein: 31, fat: 3.6, icon: '🍗' },
+  { name: '鸡蛋', calories: 155, carbs: 1.1, protein: 13, fat: 11, icon: '🥚' },
+  { name: '苹果', calories: 52, carbs: 14, protein: 0.3, fat: 0.2, icon: '🍎' },
+  { name: '全麦面包', calories: 247, carbs: 41, protein: 13, fat: 3.4, icon: '🍞' },
+  { name: '牛奶', calories: 42, carbs: 5, protein: 3.4, fat: 1, icon: '🥛' },
+  { name: '牛肉', calories: 250, carbs: 0, protein: 26, fat: 15, icon: '🥩' },
+  { name: '西兰花', calories: 35, carbs: 7, protein: 2.4, fat: 0.4, icon: '🥦' },
 ];
 
 export const Home: React.FC = () => {
@@ -84,7 +86,7 @@ export const Home: React.FC = () => {
 
   const handleManualSubmit = () => {
     if (!manualForm.name) return;
-    const imageUrl = selectedFood ? selectedFood.imageUrl : getGenericImage(manualForm.name);
+    const icon = selectedFood ? selectedFood.icon : getFoodIcon(manualForm.name);
     addLog({
       name: manualForm.name,
       weight: manualForm.weight,
@@ -93,7 +95,7 @@ export const Home: React.FC = () => {
       protein: manualForm.protein,
       fat: manualForm.fat,
       mealType: manualForm.mealType,
-      imageUrl
+      imageUrl: icon
     });
     setShowManualAdd(false);
     setManualForm({ name: '', weight: 100, calories: 0, carbs: 0, protein: 0, fat: 0, mealType: 'Lunch' });
@@ -109,7 +111,7 @@ export const Home: React.FC = () => {
           <p className="text-sm text-slate-500 font-medium">{format(new Date(), 'MM月dd日 EEEE', { locale: zhCN })}</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white shadow-sm overflow-hidden">
-          <img src="https://picsum.photos/seed/user/100/100" alt="User" />
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23bbf7d0'/%3E%3Crect x='2' y='5' width='3' height='4' fill='%2378350f'/%3E%3Crect x='11' y='5' width='3' height='4' fill='%2378350f'/%3E%3Crect x='3' y='6' width='1' height='2' fill='%23fde68a'/%3E%3Crect x='12' y='6' width='1' height='2' fill='%23fde68a'/%3E%3Crect x='4' y='3' width='8' height='8' fill='%2378350f'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23fde68a'/%3E%3Crect x='4' y='7' width='8' height='4' fill='%23fde68a'/%3E%3Crect x='5' y='6' width='2' height='2' fill='%23000'/%3E%3Crect x='9' y='6' width='2' height='2' fill='%23000'/%3E%3Crect x='5' y='6' width='1' height='1' fill='%23fff'/%3E%3Crect x='9' y='6' width='1' height='1' fill='%23fff'/%3E%3Crect x='7' y='8' width='2' height='1' fill='%23d97706'/%3E%3Crect x='4' y='11' width='8' height='5' fill='%2378350f'/%3E%3Crect x='5' y='12' width='6' height='4' fill='%23fde68a'/%3E%3Crect x='7' y='9' width='5' height='2' fill='%23facc15'/%3E%3Crect x='10' y='7' width='3' height='2' fill='%23facc15'/%3E%3Crect x='11' y='5' width='2' height='2' fill='%23facc15'/%3E%3Crect x='8' y='10' width='3' height='3' fill='%2378350f'/%3E%3C/svg%3E" alt="User" className="w-full h-full object-cover" />
         </div>
       </header>
 
@@ -157,11 +159,13 @@ export const Home: React.FC = () => {
         <div className="space-y-3">
           {displayedLogs.map(log => {
             const mealTypeMap: Record<string, string> = { Breakfast: '早餐', Lunch: '午餐', Dinner: '晚餐', Snack: '加餐' };
-            const isBadImage = !log.imageUrl || log.imageUrl.includes('picsum.photos') || log.imageUrl.includes('dicebear.com');
-            const imageUrl = isBadImage ? getGenericImage(log.name) : log.imageUrl;
+            const isOldImage = log.imageUrl && log.imageUrl.includes('http');
+            const displayIcon = isOldImage ? getFoodIcon(log.name) : (log.imageUrl || getFoodIcon(log.name));
             return (
             <div key={log.id} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex gap-4 items-center">
-              <img src={imageUrl} alt={log.name} className="w-16 h-16 rounded-xl object-cover bg-slate-50" referrerPolicy="no-referrer" />
+              <div className="w-16 h-16 rounded-xl bg-slate-50 flex items-center justify-center text-3xl shadow-inner border border-slate-100 shrink-0">
+                {displayIcon}
+              </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-semibold text-slate-800 truncate">{log.name}</h4>
                 <p className="text-xs text-slate-500 mt-0.5">{mealTypeMap[log.mealType] || log.mealType} • {log.weight}g</p>

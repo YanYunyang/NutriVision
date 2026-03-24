@@ -38,21 +38,21 @@ export const Discover: React.FC = () => {
             calories={280} 
             protein={35} 
             time="20 分钟" 
-            image="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" 
+            icon="🍣" 
           />
           <FoodCard 
             title="希腊酸奶碗" 
             calories={150} 
             protein={20} 
             time="5 分钟" 
-            image="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=400&h=300&fit=crop" 
+            icon="🥣" 
           />
           <FoodCard 
             title="水煮毛豆" 
             calories={120} 
             protein={11} 
             time="10 分钟" 
-            image="https://images.unsplash.com/photo-1599598425947-3300262939fb?w=400&h=300&fit=crop" 
+            icon="🫛" 
           />
         </div>
       </section>
@@ -70,7 +70,7 @@ export const Discover: React.FC = () => {
             rating={4.8} 
             recommendation="丰收沙拉碗（去面包）" 
             match="95%" 
-            image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" 
+            icon="🥗" 
           />
           <RestaurantCard 
             name="Chipotle" 
@@ -78,7 +78,7 @@ export const Discover: React.FC = () => {
             rating={4.5} 
             recommendation="鸡肉沙拉碗" 
             match="88%" 
-            image="https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=400&h=300&fit=crop" 
+            icon="🌯" 
           />
         </div>
       </section>
@@ -86,10 +86,10 @@ export const Discover: React.FC = () => {
   );
 };
 
-const FoodCard: React.FC<{ title: string; calories: number; protein: number; time: string; image: string }> = ({ title, calories, protein, time, image }) => (
+const FoodCard: React.FC<{ title: string; calories: number; protein: number; time: string; icon: string }> = ({ title, calories, protein, time, icon }) => (
   <div className="min-w-[200px] bg-white rounded-3xl p-3 shadow-sm border border-slate-100 snap-start shrink-0 group hover:shadow-md transition-all">
-    <div className="relative h-32 rounded-2xl overflow-hidden mb-3">
-      <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+    <div className="relative h-32 rounded-2xl overflow-hidden mb-3 bg-slate-50 flex items-center justify-center text-6xl">
+      <div className="group-hover:scale-110 transition-transform duration-500">{icon}</div>
       <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-slate-800 flex items-center gap-1">
         <Flame size={12} className="text-coral-500" /> {calories}
       </div>
@@ -102,9 +102,11 @@ const FoodCard: React.FC<{ title: string; calories: number; protein: number; tim
   </div>
 );
 
-const RestaurantCard: React.FC<{ name: string; distance: string; rating: number; recommendation: string; match: string; image: string }> = ({ name, distance, rating, recommendation, match, image }) => (
+const RestaurantCard: React.FC<{ name: string; distance: string; rating: number; recommendation: string; match: string; icon: string }> = ({ name, distance, rating, recommendation, match, icon }) => (
   <div className="bg-white rounded-3xl p-4 shadow-sm border border-slate-100 flex gap-4 items-center group hover:shadow-md transition-all cursor-pointer">
-    <img src={image} alt={name} className="w-20 h-20 rounded-2xl object-cover shrink-0" referrerPolicy="no-referrer" />
+    <div className="w-20 h-20 rounded-2xl bg-slate-50 flex items-center justify-center text-4xl shrink-0 group-hover:scale-105 transition-transform duration-300">
+      {icon}
+    </div>
     <div className="flex-1 min-w-0">
       <div className="flex justify-between items-start mb-1">
         <h3 className="font-bold text-slate-800 truncate">{name}</h3>
